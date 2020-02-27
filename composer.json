@@ -1,0 +1,20 @@
+{
+    "name": "simple-php/di",
+    "description": "Simple PHP dependency injection container",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Puchkin Dmitriy",
+            "email": "pdima88@mail.ru"
+        }
+    ],
+    "require": {
+        "php": ">=5.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "SimplePHP\\DI\\": "/src"
+         }
+    }
+}
