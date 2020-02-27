@@ -1,11 +1,11 @@
 <?php
 namespace SimplePHP\DI;
 
-trait DITrait {       
+trait ContainerTrait {       
     protected static $_services = null;
     protected static $_instances = [];
 
-    abstract static function initServices();
+    abstract static function initServices(): array;
 
     static function getService($serviceName) {
         if (!isset(self::$_instances[$serviceName])) {
@@ -14,9 +14,14 @@ trait DITrait {
         return self::$_instances[$serviceName];
     }
 
+    static function registerService($serviceName, $serviceInit = null) {
+        if (!isset(self::$_services)) self::$_services = [];
+        self::$_services[$serviceName] = $serviceInit;
+    }
+
     static function createService($serviceName, $args = null) {
         if (!isset(self::$_services)) {
-            self::initServices();
+            self::$_services = self::initServices();
         }
         if (!isset(self::$_services[$serviceName])) {
             return null;
@@ -36,13 +41,13 @@ trait DITrait {
                         if ($service) $params[$i] = $service;
                     }
                 }
-                call_user_func($cb, $params)
+                call_user_func($cb, $params);
             }
         }
         
     }
 
     public static function __callStatic($name, $arguments) {
-        return getService($name);
+        return self::getService($name);
     }
 }
